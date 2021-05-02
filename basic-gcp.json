@@ -1,0 +1,28 @@
+{
+    "variables": {
+        "gcp_credentials_file": "",
+        "gcp_project_id": "",
+        "gcp_image_name": "packer-basic",
+        "gcp_image_base_image_name": "ubuntu-1804-bionic-v20191211"
+    },
+    "builders": [
+        {
+            "type": "googlecompute",
+            "account_file": "{{user `gcp_credentials_file`}}",
+            "project_id": "{{user `gcp_project_id`}}",
+            "source_image": "{{user `gcp_image_base_image_name`}}",
+            "ssh_username": "packer",
+            "zone": "europe-west4-a",
+            "image_name": "{{user `gcp_image_name`}}"
+        }
+    ],
+    "provisioners": [
+        {
+          "type": "shell",
+          "inline": [
+            "sudo apt-get -y  update",
+            "DEBIAN_FRONTEND=noninteractive sudo apt-get upgrade -yq"
+          ]
+        }
+      ]
+}
